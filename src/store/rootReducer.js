@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
+import decksReducer from './decks/reducers';
 
 const rootReducer = combineReducers({
-  // Remova essa linha depois de adicionar seus ducks
-  example: () => [],
+  decks: decksReducer,
 });
 
 export default rootReducer;

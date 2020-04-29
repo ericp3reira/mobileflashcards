@@ -1,20 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {View, TextInput, TouchableOpacity, Text} from 'react-native';
+import {useDispatch} from 'react-redux';
 
-import {View} from 'react-native';
+import {createDeck} from '../store/decks/actions';
+import {useNavigation} from '@react-navigation/native';
+import {DeckListScreen} from '../routes/routes';
 
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+const NewDeck = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const [title, setTitle] = useState('');
 
-// import { Container } from './styles';
+  const saveDeck = () => {
+    dispatch(createDeck({title}));
+    navigation.navigate(DeckListScreen);
+  };
 
-const NewDeck = () => <View />;
+  return (
+    <View>
+      <TextInput onChangeText={text => setTitle(text)} />
+      <TouchableOpacity onPress={saveDeck}>
+        <Text>Create Deck</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
-const mapStateToProps = state => ({});
-
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators(Actions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  // mapDispatchToProps
-)(NewDeck);
+export default NewDeck;

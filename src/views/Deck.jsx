@@ -7,6 +7,10 @@ import {connect} from 'react-redux';
 
 // import { Container } from './styles';
 
+// show deck title (header)
+// show number of cards and a option to delete them
+// show start quiz button
+// show add new question button
 const Deck = () => <View />;
 
 const mapStateToProps = state => ({});

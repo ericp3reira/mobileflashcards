@@ -24,7 +24,8 @@ const MainNavigator = () => (
           return (
             <TouchableOpacity
               onPress={() => navigation.navigate(routes.NewDeckScreen)}
-              style={{height: 48, width: 48, justifyContent: 'center'}}>
+              style={{height: 48, width: 48, justifyContent: 'center'}}
+            >
               <Text style={{fontSize: 20, fontWeight: 'bold'}}>+</Text>
             </TouchableOpacity>
           );
@@ -34,7 +35,10 @@ const MainNavigator = () => (
     <Stack.Screen
       name={routes.DeckScreen}
       component={Deck}
-      options={{animationEnabled: true, title: 'decknamehere'}}
+      options={({route}) => ({
+        animationEnabled: true,
+        title: route.params.deck.title,
+      })}
     />
     <Stack.Screen
       name={routes.NewDeckScreen}
