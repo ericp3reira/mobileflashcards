@@ -4,16 +4,16 @@ import {useDispatch} from 'react-redux';
 
 import {createDeck} from '../store/decks/actions';
 import {useNavigation} from '@react-navigation/native';
-import {DeckListScreen} from '../routes/routes';
 
 const NewDeck = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const {goBack} = useNavigation();
+
   const [title, setTitle] = useState('');
 
   const saveDeck = () => {
     dispatch(createDeck({title}));
-    navigation.navigate(DeckListScreen);
+    goBack();
   };
 
   return (

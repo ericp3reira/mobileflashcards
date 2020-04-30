@@ -1,24 +1,46 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import {NewQuestionScreen, QuizScreen} from '../routes/routes';
+import {getQuestions} from '../store/questions/actions';
 
-// import { Container } from './styles';
+const Deck = () => {
+  const dispatch = useDispatch();
+  const {navigate} = useNavigation();
+  const {params} = useRoute();
+  const {data: questions} = useSelector(state => state.questions);
 
-// show deck title (header)
-// show number of cards and a option to delete them
-// show start quiz button
-// show add new question button
-const Deck = () => <View />;
+  const {id: deckId, title} = params.deck;
+  const deckQuestions = questions[deckId] || [];
 
-const mapStateToProps = state => ({});
+  useEffect(() => {
+    dispatch(getQuestions());
+  });
 
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators(Actions, dispatch);
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>{title}</Text>
+      <TouchableOpacity onPress={() => navigate(NewQuestionScreen, {deckId})}>
+        <Text>Add new question</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        disabled={!deckQuestions.length}
+        onPress={() => navigate(QuizScreen, {deckQuestions})}
+      >
+        <Text>Start quiz</Text>
+      </TouchableOpacity>
+      {!deckQuestions.length && (
+        <View>
+          <Text>Looks like you have no questions yet.</Text>
+          <Text>What about adding one?</Text>
+        </View>
+      )}
+    </View>
+  );
+};
 
-export default connect(
-  mapStateToProps,
-  // mapDispatchToProps
-)(Deck);
+export default Deck;

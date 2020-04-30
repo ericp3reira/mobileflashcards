@@ -1,20 +1,36 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {View, TextInput, TouchableOpacity, Text} from 'react-native';
+import {useDispatch} from 'react-redux';
 
-import {View} from 'react-native';
+import {createQuestion} from '../store/questions/actions';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+const NewDeck = () => {
+  const dispatch = useDispatch();
+  const {goBack} = useNavigation();
+  const {params} = useRoute();
 
-// import { Container } from './styles';
+  const {deckId} = params;
 
-const NewQuestion = () => <View />;
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
 
-const mapStateToProps = state => ({});
+  const saveQuestion = () => {
+    dispatch(createQuestion({deckId, question, answer}));
+    goBack();
+  };
 
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators(Actions, dispatch);
+  return (
+    <View>
+      <Text>Question:</Text>
+      <TextInput onChangeText={text => setQuestion(text)} />
+      <Text>Answer:</Text>
+      <TextInput onChangeText={text => setAnswer(text)} />
+      <TouchableOpacity onPress={saveQuestion}>
+        <Text>Create question</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
-export default connect(
-  mapStateToProps,
-  // mapDispatchToProps
-)(NewQuestion);
+export default NewDeck;

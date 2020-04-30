@@ -53,7 +53,7 @@ const MainNavigator = () => (
     <Stack.Screen
       name={routes.QuizScreen}
       component={Quiz}
-      options={{animationEnabled: true, title: 'decknamehere Quiz'}}
+      options={{animationEnabled: true, title: 'Quiz'}}
     />
   </Stack.Navigator>
 );

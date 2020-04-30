@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDecks} from '../store/decks/actions';
+import {getQuestions} from '../store/questions/actions';
 import {useNavigation} from '@react-navigation/native';
 import {NewDeckScreen, DeckScreen} from '../routes/routes';
 
@@ -9,9 +10,11 @@ const DeckList = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {data: decks} = useSelector(state => state.decks);
+  const {data: questions} = useSelector(state => state.questions);
 
   useEffect(() => {
     dispatch(getDecks());
+    dispatch(getQuestions());
   });
 
   return (
@@ -28,17 +31,17 @@ const DeckList = () => {
         <FlatList
           style={{flex: 1}}
           data={decks}
-          keyExtractor={(item, index) => {
-            console.log(`${item.title}-${index}`);
-            return `${item.title}-${index}`;
-          }}
+          keyExtractor={(item, index) => `${item.title}-${index}`}
           renderItem={({item}) => {
+            const deckQuestions = questions[item.id]
+              ? questions[item.id].length
+              : 0;
             return (
               <TouchableOpacity
                 onPress={() => navigation.navigate(DeckScreen, {deck: item})}
               >
                 <Text>{item.title}</Text>
-                <Text>{item.questions.length} 🃏</Text>
+                <Text>{deckQuestions} 🃏</Text>
               </TouchableOpacity>
             );
           }}

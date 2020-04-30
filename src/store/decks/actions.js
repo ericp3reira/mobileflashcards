@@ -8,6 +8,5 @@ export const createDeck = ({title}) => ({
   type: CREATE_DECK,
   data: {
     title,
-    questions: [],
   },
 });
