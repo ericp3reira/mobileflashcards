@@ -5,6 +5,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
 import {NewCardScreen, QuizScreen} from '../routes/routes';
+import {shuffleArray} from '../services/utils';
 import Button from '../components/Button';
 import Container from '../components/Container';
 
@@ -36,7 +37,9 @@ const Deck = () => {
         </View>
         <Button
           disabled={!questions.length}
-          onPress={() => navigate(QuizScreen, {deckId})}
+          onPress={() =>
+            navigate(QuizScreen, {deckId, questions: shuffleArray(questions)})
+          }
           text={'Start a quiz'}
         />
       </View>

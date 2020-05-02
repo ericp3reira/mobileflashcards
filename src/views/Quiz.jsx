@@ -2,22 +2,21 @@ import React, {useState} from 'react';
 
 import {View, Text, StyleSheet} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
 
 import Button from '../components/Button';
 import Container from '../components/Container';
 import RadioGroup from '../components/RadioGroup';
 import {scheduleNotifications} from '../services/notifications';
+import {shuffleArray} from '../services/utils';
 
 const Quiz = () => {
   const {goBack} = useNavigation();
 
   const {
-    params: {deckId},
+    params: {questions: stateQuestions},
   } = useRoute();
 
-  const questions = useSelector(state => state.questions.data[deckId]) || [];
-
+  const [questions, setQuestions] = useState(stateQuestions);
   const [index, setIndex] = useState(0);
   const [question, setQuestion] = useState(questions[index]);
   const [isAnswer, showAnswer] = useState(false);
@@ -40,6 +39,7 @@ const Quiz = () => {
   };
 
   const restartQuiz = () => {
+    setQuestions(shuffleArray(questions));
     setIndex(0);
     setQuestion(questions[0]);
     showAnswer(false);
