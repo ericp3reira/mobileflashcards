@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 
 import {View, Text, StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
-import {NewCardScreen, QuizScreen} from '../routes/routes';
 import Button from '../components/Button';
 import Container from '../components/Container';
 import RadioGroup from '../components/RadioGroup';
+import {scheduleNotifications} from '../services/notifications';
 
 const Quiz = () => {
   const {goBack} = useNavigation();
@@ -37,6 +36,7 @@ const Quiz = () => {
   const showResult = () => {
     updateAnswers([...answers, isCorrect]);
     setFinished(true);
+    scheduleNotifications();
   };
 
   const restartQuiz = () => {

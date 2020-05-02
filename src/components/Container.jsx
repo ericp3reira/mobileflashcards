@@ -2,20 +2,14 @@ import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 
 const Container = ({children}) => (
-  <SafeAreaView
-    style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center'}}
-  >
-    {children}
-  </SafeAreaView>
+  <SafeAreaView style={styles.container}>{children}</SafeAreaView>
 );
 
 const styles = StyleSheet.create({
-  header: {
-    height: 60,
-    width: '100%',
-    justifyContent: 'space-between',
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'red',
   },
 });
 

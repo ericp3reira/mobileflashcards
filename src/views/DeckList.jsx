@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   addDeckButtonContainer: {
     position: 'absolute',
     bottom: 40,
-    right: 40,
+    right: 20,
   },
 });
 

@@ -6,7 +6,9 @@ const Card = ({title, numQuestions, onPress}) => (
     <Text ellipsizeMode="tail" numberOfLines={2} style={styles.title}>
       {title}
     </Text>
-    <Text>🃏{numQuestions} cards</Text>
+    <Text>
+      🃏{numQuestions} card{numQuestions !== 1 && 's'}
+    </Text>
   </TouchableOpacity>
 );
 
