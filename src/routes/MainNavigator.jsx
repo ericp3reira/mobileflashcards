@@ -27,7 +27,8 @@ const MainNavigator = () => (
       component={Deck}
       options={({route}) => ({
         animationEnabled: true,
-        title: route.params.deck.title,
+        title: '',
+        headerTransparent: true,
       })}
     />
     <Stack.Screen
@@ -43,7 +44,11 @@ const MainNavigator = () => (
     <Stack.Screen
       name={routes.QuizScreen}
       component={Quiz}
-      options={{animationEnabled: true, title: 'Quiz'}}
+      options={{
+        animationEnabled: true,
+        title: '',
+        headerTransparent: true,
+      }}
     />
   </Stack.Navigator>
 );

@@ -4,27 +4,40 @@ import {useDispatch} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 import {createQuestion} from '../store/questions/actions';
+import {showError} from '../store/errors/actions';
 import Button from '../components/Button';
 import InputField from '../components/InputField';
 import Container from '../components/Container';
+import ErrorToast from '../components/ErrorToast';
 
-const NewDeck = () => {
+const NewCard = () => {
   const dispatch = useDispatch();
   const {goBack} = useNavigation();
-  const {params} = useRoute();
-
-  const {deckId} = params;
+  const {
+    params: {deckId},
+  } = useRoute();
 
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
 
   const saveQuestion = () => {
+    if (!question) {
+      dispatch(showError({message: 'Question should not be blank'}));
+      return;
+    }
+
+    if (!answer) {
+      dispatch(showError({message: 'Answer should not be blank'}));
+      return;
+    }
+
     dispatch(createQuestion({deckId, question, answer}));
     goBack();
   };
 
   return (
-    <Container headless>
+    <Container>
+      <ErrorToast />
       <View style={styles.inputWrapper}>
         <InputField label={'Question:'} onChange={text => setQuestion(text)} />
         <InputField label={'Answer:'} onChange={text => setAnswer(text)} />
@@ -42,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewDeck;
+export default NewCard;

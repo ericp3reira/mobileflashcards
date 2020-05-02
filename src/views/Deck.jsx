@@ -1,16 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {NewCardScreen, QuizScreen} from '../routes/routes';
-import {getQuestions} from '../store/questions/actions';
 import Button from '../components/Button';
 import Container from '../components/Container';
 
 const Deck = () => {
-  const dispatch = useDispatch();
   const {navigate} = useNavigation();
 
   const {params} = useRoute();
@@ -18,33 +16,46 @@ const Deck = () => {
 
   const questions = useSelector(state => state.questions.data[deckId]) || [];
 
-  useEffect(() => {
-    dispatch(getQuestions());
-  }, [dispatch]);
-
   return (
-    <Container headless>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>{title}</Text>
-        <Text>Questions: {questions.length}</Text>
-        <Button
-          onPress={() => navigate(NewCardScreen, {deckId})}
-          text={'Add card'}
-        />
+    <Container>
+      <View style={styles.deckContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <View style={styles.questionsContainer}>
+          {!questions.length ? (
+            <>
+              <Text>Looks like you have no questions yet.</Text>
+              <Text>What about adding one?</Text>
+            </>
+          ) : (
+            <Text>Cards: {questions.length}</Text>
+          )}
+          <Button
+            onPress={() => navigate(NewCardScreen, {deckId})}
+            text={'Add card'}
+          />
+        </View>
         <Button
           disabled={!questions.length}
           onPress={() => navigate(QuizScreen, {deckId})}
           text={'Start a quiz'}
         />
-        {!questions.length && (
-          <View>
-            <Text>Looks like you have no questions yet.</Text>
-            <Text>What about adding one?</Text>
-          </View>
-        )}
       </View>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  deckContainer: {
+    flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  title: {fontSize: 24, fontWeight: '600'},
+  questionsContainer: {
+    alignItems: 'center',
+    height: '30%',
+    justifyContent: 'space-evenly',
+  },
+});
 
 export default Deck;

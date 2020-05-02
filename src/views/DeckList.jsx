@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
@@ -24,7 +24,7 @@ const DeckList = () => {
   }, [dispatch]);
 
   return (
-    <Container headless>
+    <Container>
       {!decks || !decks.length ? (
         <View style={styles.noDecksContainer}>
           <Text>You have no decks</Text>

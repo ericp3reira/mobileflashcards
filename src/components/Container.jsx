@@ -1,11 +1,10 @@
 import React from 'react';
-import {SafeAreaView, View, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 
-const Container = ({children, headless}) => (
+const Container = ({children}) => (
   <SafeAreaView
     style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center'}}
   >
-    {!headless && <View style={styles.header} />}
     {children}
   </SafeAreaView>
 );

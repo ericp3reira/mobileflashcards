@@ -5,7 +5,7 @@ const Button = ({text, onPress, disabled = false}) => (
   <TouchableOpacity
     disabled={disabled}
     onPress={onPress}
-    style={styles.container}
+    style={[styles.container, disabled ? {opacity: 0.5} : {}]}
   >
     <Text style={styles.label}>{text}</Text>
   </TouchableOpacity>
