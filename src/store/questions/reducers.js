@@ -1,32 +1,36 @@
-import {uuid} from 'uuidv4';
-import {CREATE_QUESTION, GET_QUESTIONS} from './types';
+import {
+  GET_QUESTIONS,
+  GET_QUESTIONS_SUCCESS,
+  GET_QUESTIONS_FAILURE,
+  CREATE_QUESTION,
+  CREATE_QUESTION_SUCCESS,
+  CREATE_QUESTION_FAILURE,
+} from './types';
 
 const initialState = {
-  data: {},
+  data: null,
+  error: null,
 };
 
-let fakeDataStorage = {};
-
 const questionsReducer = (state = initialState, action) => {
-  const {type, data} = action;
+  const {type, data, error} = action;
 
   switch (type) {
     case GET_QUESTIONS:
-      return state;
     case CREATE_QUESTION:
-      const question = {
-        id: uuid(),
-        question: data.question,
-        answer: data.answer,
-      };
-
-      fakeDataStorage[data.deckId] = fakeDataStorage[data.deckId]
-        ? [...fakeDataStorage[data.deckId], question]
-        : [question];
-
+      return state;
+    case GET_QUESTIONS_SUCCESS:
+    case CREATE_QUESTION_SUCCESS:
       return {
         ...state,
-        data: fakeDataStorage,
+        data,
+        error: null,
+      };
+    case GET_QUESTIONS_FAILURE:
+    case CREATE_QUESTION_FAILURE:
+      return {
+        ...state,
+        error,
       };
     default:
       return state;

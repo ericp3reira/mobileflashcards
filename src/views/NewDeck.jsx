@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
-import {View, TextInput, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 import {createDeck} from '../store/decks/actions';
 import {useNavigation} from '@react-navigation/native';
+import Container from '../components/Container';
+import InputField from '../components/InputField';
+import Button from '../components/Button';
 
 const NewDeck = () => {
   const dispatch = useDispatch();
@@ -17,13 +20,24 @@ const NewDeck = () => {
   };
 
   return (
-    <View>
-      <TextInput onChangeText={text => setTitle(text)} />
-      <TouchableOpacity onPress={saveDeck}>
-        <Text>Create Deck</Text>
-      </TouchableOpacity>
-    </View>
+    <Container headless>
+      <View style={styles.wrapper}>
+        <InputField
+          onChange={text => setTitle(text)}
+          label={'Name:'}
+          placeholder={'New deck name'}
+        />
+        <Button text={'Create Deck'} onPress={saveDeck} />
+      </View>
+    </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%',
+    alignItems: 'center',
+  },
+});
 
 export default NewDeck;

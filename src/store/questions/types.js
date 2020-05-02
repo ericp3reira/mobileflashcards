@@ -1,2 +1,6 @@
 export const GET_QUESTIONS = '@questions/GET_QUESTIONS';
+export const GET_QUESTIONS_SUCCESS = '@questions/GET_QUESTIONS_SUCCESS';
+export const GET_QUESTIONS_FAILURE = '@questions/GET_QUESTIONS_FAILURE';
 export const CREATE_QUESTION = '@questions/CREATE_QUESTION';
+export const CREATE_QUESTION_SUCCESS = '@questions/CREATE_QUESTION_SUCCESS';
+export const CREATE_QUESTION_FAILURE = '@questions/CREATE_QUESTION_FAILURE';

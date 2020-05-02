@@ -1,10 +1,16 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+
 import {getDecks} from '../store/decks/actions';
 import {getQuestions} from '../store/questions/actions';
-import {useNavigation} from '@react-navigation/native';
 import {NewDeckScreen, DeckScreen} from '../routes/routes';
+
+import Button from '../components/Button';
+import RoundButton from '../components/RoundButton';
+import Container from '../components/Container';
+import Card from '../components/DeckCard';
 
 const DeckList = () => {
   const navigation = useNavigation();
@@ -15,40 +21,65 @@ const DeckList = () => {
   useEffect(() => {
     dispatch(getDecks());
     dispatch(getQuestions());
-  });
+  }, [dispatch]);
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      {!decks.length ? (
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+    <Container headless>
+      {!decks || !decks.length ? (
+        <View style={styles.noDecksContainer}>
           <Text>You have no decks</Text>
           <Text>How about create one?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate(NewDeckScreen)}>
-            <Text>Create deck</Text>
-          </TouchableOpacity>
+          <Button
+            onPress={() => navigation.navigate(NewDeckScreen)}
+            text={'Create deck'}
+          />
         </View>
       ) : (
-        <FlatList
-          style={{flex: 1}}
-          data={decks}
-          keyExtractor={(item, index) => `${item.title}-${index}`}
-          renderItem={({item}) => {
-            const deckQuestions = questions[item.id]
-              ? questions[item.id].length
-              : 0;
-            return (
-              <TouchableOpacity
-                onPress={() => navigation.navigate(DeckScreen, {deck: item})}
-              >
-                <Text>{item.title}</Text>
-                <Text>{deckQuestions} 🃏</Text>
-              </TouchableOpacity>
-            );
-          }}
-        />
+        <>
+          <FlatList
+            style={styles.decklist}
+            data={decks}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => {
+              const numQuestions =
+                questions && questions[item.id] ? questions[item.id].length : 0;
+              return (
+                <Card
+                  onPress={() => navigation.navigate(DeckScreen, {deck: item})}
+                  numQuestions={numQuestions}
+                  title={item.title}
+                />
+              );
+            }}
+          />
+          <View style={styles.addDeckButtonContainer}>
+            <RoundButton
+              onPress={() => navigation.navigate(NewDeckScreen)}
+              text={'+'}
+            />
+          </View>
+        </>
       )}
-    </View>
+    </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  noDecksContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  decklist: {
+    flex: 1,
+    width: '100%',
+    padding: 20,
+  },
+  addDeckButtonContainer: {
+    position: 'absolute',
+    bottom: 40,
+    right: 40,
+  },
+});
 
 export default DeckList;
